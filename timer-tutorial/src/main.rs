@@ -124,8 +124,18 @@ fn main() {
         println!("Vidia's Komputer: done!");
     });
 
-    println!("Vidia's Komputer: hey hey!");
+    spawner.spawn(async {
+        println!("Vidia's Komputer: howdy2!");
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Vidia's Komputer: done2!");
+    });
 
-    drop(spawner);
+    spawner.spawn(async {
+        println!("Vidia's Komputer: howdy3!");
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Vidia's Komputer: done3!");
+    });
+
+//     drop(spawner);
     executor.run();
 }
