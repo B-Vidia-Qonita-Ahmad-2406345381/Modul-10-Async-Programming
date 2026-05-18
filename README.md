@@ -1,6 +1,6 @@
 ## Experiment 1.2: Understanding How It Works
 
-![hasil](static/exp1-2.png)
+![hasil](timer-tutorial/static/exp1-2.png)
 
 "hey hey!" muncul pertama meskipun ditulis setelah `spawner.spawn(...)`.
 Ini terjadi karena `spawn()` hanya mendaftarkan task ke antrian, belum
