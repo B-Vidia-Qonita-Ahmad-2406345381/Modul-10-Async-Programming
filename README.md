@@ -41,3 +41,14 @@ Ketika salah satu client mengetik pesan, server menerima lalu
 mem-broadcast ke semua client yang terhubung. Setiap koneksi
 ditangani oleh `tokio::spawn` tersendiri sehingga server bisa
 melayani banyak client sekaligus tanpa blocking.
+
+## Experiment 2.2: Modifying Port
+
+Mengubah port dari `2000` ke `8080` di dua file:
+- `server.rs` → `TcpListener::bind("127.0.0.1:8080")`
+- `client.rs` → `ws://127.0.0.1:8080`
+
+Keduanya harus diubah karena client dan server harus terhubung
+di port yang sama. Protokol yang digunakan adalah `ws://` (WebSocket)
+yang memungkinkan komunikasi dua arah persisten, berbeda dengan HTTP
+yang hanya satu arah.
