@@ -23,7 +23,9 @@ async fn handle_connection(
                     Some(Ok(msg)) => {
                         let msg = msg.as_text().unwrap_or_default();
                         println!("From client {addr:?} {msg:?}");
-                        bcast_tx.send(msg.into())?;
+                        // Tambahkan info sender ke pesan broadcast:
+                        let msg_with_sender = format!("{addr}: {msg}");
+                        bcast_tx.send(msg_with_sender)?;
                     }
                     Some(Err(err)) => return Err(err.into()),
                     None => return Ok(()),

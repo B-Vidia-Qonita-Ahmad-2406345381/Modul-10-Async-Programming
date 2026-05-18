@@ -52,3 +52,36 @@ Keduanya harus diubah karena client dan server harus terhubung
 di port yang sama. Protokol yang digunakan adalah `ws://` (WebSocket)
 yang memungkinkan komunikasi dua arah persisten, berbeda dengan HTTP
 yang hanya satu arah.
+
+## Experiment 2.3: Small Changes, Add IP and Port
+
+### Modifikasi
+
+Menambahkan informasi IP dan port pengirim pada setiap pesan yang di-broadcast
+di `server.rs`:
+
+```rust
+// Sebelum
+bcast_tx.send(msg.into())?;
+
+// Sesudah
+let msg_with_sender = format!("{addr}: {msg}");
+bcast_tx.send(msg_with_sender)?;
+```
+
+### Hasil
+
+![Experiment 2.3](chat/static/exp2-3.png)
+
+### Penjelasan
+
+Sebelumnya pesan yang diterima client hanya berisi teks mentah dari pengirim,
+tanpa informasi siapa yang mengirim. Sekarang setiap pesan menyertakan IP dan
+port pengirim, misalnya: `127.0.0.1:63045: the first take... udah siap belom~`.
+
+Modifikasi dilakukan di server karena server adalah pihak yang mengetahui
+informasi `addr` (SocketAddr) dari setiap koneksi. Informasi ini didapat
+saat `listener.accept()` dipanggil dan diteruskan ke fungsi `handle_connection`.
+
+Dengan perubahan ini, setiap client bisa mengetahui dari mana pesan berasal,
+walaupun masih berupa IP:Port dan belum berupa nama pengguna.
