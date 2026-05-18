@@ -23,3 +23,21 @@ muncul. Satu thread bisa menangani banyak task tanpa membuat thread baru.
 Program hang dan tidak selesai. `drop(spawner)` berfungsi sebagai sinyal
 bahwa tidak ada task baru lagi. Tanpa itu, executor terus menunggu di
 `recv()` selamanya karena channel masih terbuka.
+
+## Experiment 2.1: Original Code
+
+### Cara Menjalankan
+```bash
+# Terminal 1
+cargo run --bin server
+
+# Terminal 2, 3, 4 (masing-masing)
+cargo run --bin client
+```
+
+![hasil](chat/static/exp2-1.png)
+
+Ketika salah satu client mengetik pesan, server menerima lalu
+mem-broadcast ke semua client yang terhubung. Setiap koneksi
+ditangani oleh `tokio::spawn` tersendiri sehingga server bisa
+melayani banyak client sekaligus tanpa blocking.
